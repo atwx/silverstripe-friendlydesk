@@ -15,6 +15,11 @@ class FriendlydeskFormField extends DropdownField
 {
     private ?string $loadError = null;
 
+    /**
+     * Open forms (public URL => label), loaded once per request
+     */
+    private ?array $openForms = null;
+
     public function __construct($name, $title = null, $value = null)
     {
         parent::__construct($name, $title, [], $value);
@@ -24,14 +29,7 @@ class FriendlydeskFormField extends DropdownField
 
     public function getSource()
     {
-        $source = [];
-        try {
-            foreach (FriendlydeskClient::singleton()->openForms() as $form) {
-                $source[$form['publicUrl']] = $this->formLabel($form);
-            }
-        } catch (RuntimeException $e) {
-            $this->loadError = $e->getMessage();
-        }
+        $source = $this->openForms();
 
         $value = (string) $this->Value();
         if ($value !== '' && !isset($source[$value])) {
@@ -43,13 +41,29 @@ class FriendlydeskFormField extends DropdownField
 
     public function getDescription()
     {
-        $this->getSource();
+        $this->openForms();
         $description = (string) parent::getDescription();
         if ($this->loadError) {
             $description = trim($description . ' ' . $this->loadError);
         }
 
         return $description;
+    }
+
+    private function openForms(): array
+    {
+        if ($this->openForms === null) {
+            $this->openForms = [];
+            try {
+                foreach (FriendlydeskClient::singleton()->openForms() as $form) {
+                    $this->openForms[$form['publicUrl']] = $this->formLabel($form);
+                }
+            } catch (RuntimeException $e) {
+                $this->loadError = $e->getMessage();
+            }
+        }
+
+        return $this->openForms;
     }
 
     private function formLabel(array $form): string
