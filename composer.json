@@ -1,0 +1,23 @@
+{
+    "name": "atwx/silverstripe-friendlydesk",
+    "description": "Select and embed friendlydesk forms in Silverstripe",
+    "type": "silverstripe-vendormodule",
+    "keywords": [
+        "silverstripe",
+        "friendlydesk",
+        "forms"
+    ],
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": "^8.3",
+        "silverstripe/framework": "^6.0",
+        "guzzlehttp/guzzle": "^7.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Atwx\\Friendlydesk\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

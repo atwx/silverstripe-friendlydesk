@@ -1,0 +1,7 @@
+---
+Name: friendlydesk
+---
+SilverStripe\Core\Injector\Injector:
+  # Database field type: 'MyForm' => 'FriendlydeskForm'
+  FriendlydeskForm:
+    class: Atwx\Friendlydesk\ORM\DBFriendlydeskForm
