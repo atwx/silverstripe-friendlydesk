@@ -31,7 +31,7 @@ class FriendlydeskFormField extends DropdownField
     {
         $source = $this->openForms();
 
-        $value = (string) $this->Value();
+        $value = (string) $this->getValue();
         if ($value !== '' && !isset($source[$value])) {
             $source[$value] = sprintf('%s (nicht mehr offen)', $value);
         }
